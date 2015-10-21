@@ -1,38 +1,34 @@
-# **multicpu**  ([中文版](README_ch.md))
-Set the number of cpu and thread using ONE function:
+# **multicpu**
+
+使用multicpu之后，你需要一个函数，就可以定义你程序运行时所需的**CPU数量**和每个cpu占用的**线程数量**：
 >result = ***multi_cpu***(process_job, jobs, cpu_num, thread_num)
 
-***cpu_num***: the number of cpu. <br>
-***thread_num***: the number of thread in one cpu.
+***cpu_num***: 使用的CPU数量. <br>
+***thread_num***: 每个cpu占用的**线程数量**.
 
-Installation
+安装指南
 ------------
 
-Multicpu is conveniently available via pip:
+***multicpu*** 可以直接使用pip就可以安装了
 ```
 pip install multicpu
 ```
-
-or installable via `git clone` and `setup.py`
+或者，你也可以用`git clone` 下载源代码，然后用`setup.py`安装:
 ```
 git clone git@github.com:cyh24/multicpu.git
 sudo python setup.py install
 ```
 
 
-Usage
------
-The multicpu library enables you to utilize the benefits of multi-cpu and multi-threading with minimal concern about the implementation details.
-
 >***"Talk is cheap, show me your performance."***
 
-Let's take a look at how simple it is to speed up an inefficient chunk of blocking code with minimal effort.
+因为源代码才**60行**不到，所以，你自己去看完全不会有卡住的地方，这里简单粗暴地直接上代码：
 
 
 ----------
 
 
-Non-IO-Intensive Function 
+如果你的程序是 **不是IO密集型**
 -----------------
 ```
 import time
@@ -44,7 +40,7 @@ def process_job(job):
 jobs = [i for i in range(20)]
 
 ```
-IO-Intensive Function 
+如果你的程序 **IO密集型**
 -----------------
 ```
 import time
@@ -61,7 +57,7 @@ jobs = [i for i in range(20)]
 
 ----------
 
-Non-Thread
+没有使用任何多线程处理的方法：
 ----------
 ```
 import time
@@ -73,7 +69,7 @@ if __name__ == "__main__":
 ```
 
 
-Multi-thread
+使用了python的线程池：
 -----------------
 ```
 import time
@@ -89,7 +85,7 @@ if __name__ == "__main__":
 ----------
 
 
-multicpu
+使用**multicpu**：
 -----------------
 ```
 import time
@@ -99,7 +95,7 @@ if __name__ == "__main__":
     result = multi_cpu(process_job, jobs, 10, 1)
 ```
 
-Performance
+效果：
 -----------------
 | **Function** | **Non-Thread** | **Multi-Thread(10)** | **multicpu(10,1)**| **multicpu(10,2)** |
 |:--------|:---------:|:-------:|:-------:|:-------:|
