@@ -1,5 +1,9 @@
 # **multicpu**
-Set the number of cpu and thread using ONE function.
+Set the number of cpu and thread using ONE function:
+>result = ***multi_cpu***(process_job, jobs, cpu_num, thread_num)
+
+cpu_num: the number of cpu.
+thread_num: the number of thread in one cpu.
 
 Installation
 ------------
@@ -49,7 +53,7 @@ if __name__ == "__main__":
 
 Output:
 >Time:  **7.70** seconds
-result: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+>result: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 
 ----------
@@ -76,7 +80,7 @@ if __name__ == "__main__":
 ```
 Output:
 >Time:  **22.50** seconds
-result: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+>result: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 
 ----------
@@ -97,11 +101,11 @@ def process_job(job):
 jobs = [i for i in range(10)]
 
 if __name__ == "__main__":
-    result = muti_cpu(process_job, jobs, 5, 1)
+    result = multi_cpu(process_job, jobs, 5, 1)
 ```
 Output:
 >Time:  **2.26** seconds
-result: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+>result: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 
 How Does it Work?
