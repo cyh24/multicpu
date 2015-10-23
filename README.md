@@ -1,4 +1,4 @@
-# **multicpu**  ([中文版](README_ch.md))
+# **multicpu**  ([中文版](http://blog.csdn.net/cyh_24/article/details/49314709))
 Set the number of cpu and thread using ONE function:
 >result = ***multi_cpu***(process_job, jobs, cpu_num, thread_num)
 
@@ -35,8 +35,6 @@ Let's take a look at how simple it is to speed up an inefficient chunk of blocki
 Non-IO-Intensive Function 
 -----------------
 ```
-import time
-
 def process_job(job):
     time.sleep(1)
     return job
@@ -47,8 +45,6 @@ jobs = [i for i in range(20)]
 IO-Intensive Function 
 -----------------
 ```
-import time
-
 def process_job(job):
     count = 100000000
     while count>0:
@@ -64,8 +60,6 @@ jobs = [i for i in range(20)]
 Non-Thread
 ----------
 ```
-import time
-
 if __name__ == "__main__":
     result = []
     for job in jobs:
@@ -76,7 +70,6 @@ if __name__ == "__main__":
 Multi-thread
 -----------------
 ```
-import time
 from concurrent import futures
 
 if __name__ == "__main__":
@@ -92,8 +85,7 @@ if __name__ == "__main__":
 multicpu
 -----------------
 ```
-import time
-from concurrent import futures
+from multicpu import multi_cpu
 
 if __name__ == "__main__":
     result = multi_cpu(process_job, jobs, 10, 1)
@@ -111,5 +103,3 @@ How Does it Work?
 -----------------
 
 Feel free to read the source for a peek behind the scenes -- it's less than 60 lines of code.
-
-
