@@ -40,6 +40,11 @@ def test_no_thread():
     for job in jobs:
         result.append(process_job(job))
     print result
+    
+def test_multi_cpu_thread_timeout(cpu_num, thread_num, timeout):
+    print "multi_cpu_thread: cpu_num=%d, thread_num=%d"%(cpu_num, thread_num)
+    result = multi_cpu(process_job, jobs, cpu_num, thread_num, timeout)
+    print result
 
 
 def aa():
@@ -63,3 +68,9 @@ if __name__ == "__main__":
     test_multi_cpu_thread(3, 1)
     end = time.time()
     print "Time: %f seconds\n" % (end - start)
+    
+    import concurrent
+    try:
+        test_multi_cpu_thread_timeout(3, 1, 1)
+    except concurrent.futures.TimeoutError:
+        print("this took too long")
