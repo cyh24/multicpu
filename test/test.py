@@ -12,6 +12,7 @@ def process_job(job):
     count = 10000000
     while count>0:
         count -= 1
+    print "ok"
     return job
 
 
