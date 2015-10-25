@@ -8,13 +8,13 @@ class Multicpu():
         self.thread_num = thread_num
 
     
-    def _multi_cpu(self, func, job_queue):
+    def _multi_cpu(self, func, job_queue, timeout):
         if getLen(job_queue) == 0:
             return []
         index = get_index(job_queue, self.cpu_num)
 
         cpu_pool = multiprocessing.Pool(processes=self.cpu_num)
-        result_queue = cpu_pool.map(_multi_thread, [ [func, self.cpu_num, self.thread_num, job_queue[idx[0]: idx[1]+1]] for idx in index])
+        result_queue = cpu_pool.map(_multi_thread, [ [func, self.cpu_num, self.thread_num, job_queue[idx[0]: idx[1]+1], timeout] for idx in index])
 
         result = []
         for rl in result_queue:
@@ -29,7 +29,7 @@ def _multi_thread(argv):
         thread_num = argv[3]
     thread_pool = futures.ThreadPoolExecutor(max_workers=thread_num)
 
-    result = thread_pool.map(argv[0], argv[3])
+    result = thread_pool.map(argv[0], argv[3], timeout=argv[4])
     
     return [ r for r in result]
 
@@ -56,7 +56,7 @@ def getLen(_list):
     return len(_list)
     
 
-def multi_cpu(func, job_queue, cpu_num=1, thread_num=1):
+def multi_cpu(func, job_queue, cpu_num=1, thread_num=1, timeout=None):
     multicpu_instance = Multicpu(cpu_num, thread_num)
 
-    return multicpu_instance._multi_cpu(func, job_queue) 
+    return multicpu_instance._multi_cpu(func, job_queue, timeout) 
