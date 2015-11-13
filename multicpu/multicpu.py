@@ -30,7 +30,7 @@ class Multicpu():
         return result 
 
 def _func(argv):
-    argv[2][argv[3]] = round((argv[1]-argv[4])*1.0/(argv[5]-argv[4]), 2)
+    argv[2][argv[3]] = round((argv[4]*100.0/argv[5]), 2)
     sys.stdout.write(str(argv[2])+' ||'+'->'+"\r")    
     sys.stdout.flush()
     return argv[0](argv[1])
@@ -41,7 +41,7 @@ def _multi_thread(argv):
     if getLen(argv[3]) < thread_num:
         thread_num = argv[3]
 
-    func_argvs = [[argv[0], arg, argv[5], argv[6], argv[3][0], argv[3][-1]] for arg in argv[3]]
+    func_argvs = [[argv[0], argv[3][i], argv[5], argv[6], i, len(argv[3]) ] for i in range(len(argv[3]))]
 
     result = []
     if thread_num == 1:

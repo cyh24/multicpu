@@ -15,7 +15,7 @@ def process_job(job):
     return job
 
 
-jobs = [i for i in range(30)]
+jobs = [str(i) for i in range(30)]
 
 def test_multi_cpu_thread(cpu_num, thread_num):
     print "multi_cpu_thread: cpu_num=%d, thread_num=%d"%(cpu_num, thread_num)

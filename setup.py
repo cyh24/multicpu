@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name    = "multicpu",
-    version = "1.0.3",
+    version = "1.0.6",
     author  = "cyh_24",
     author_email = "cyh@buaa.edu.cn",
 
