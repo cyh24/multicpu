@@ -1,5 +1,6 @@
 import multiprocessing
 from concurrent import futures
+import sys
 
 class Multicpu():
 
@@ -14,7 +15,13 @@ class Multicpu():
         index = get_index(job_queue, self.cpu_num)
 
         cpu_pool = multiprocessing.Pool(processes=self.cpu_num)
-        result_queue = cpu_pool.map(_multi_thread, [ [func, self.cpu_num, self.thread_num, job_queue[idx[0]: idx[1]+1], timeout] for idx in index])
+
+        mgr = multiprocessing.Manager()
+        process_bar = mgr.list()
+        for i in range(self.cpu_num):
+            process_bar.append(0)
+
+        result_queue = cpu_pool.map(_multi_thread, [ [func, self.cpu_num, self.thread_num, job_queue[index[i][0]: index[i][1]+1], timeout, process_bar, i] for i in range(len(index))])
 
         result = []
         for rl in result_queue:
@@ -22,14 +29,30 @@ class Multicpu():
                 result.append(r)
         return result 
 
+def _func(argv):
+    argv[2][argv[3]] = round((argv[1]-argv[4])*1.0/(argv[5]-argv[4]), 2)
+    sys.stdout.write(str(argv[2])+' ||'+'->'+"\r")    
+    sys.stdout.flush()
+    return argv[0](argv[1])
+
 
 def _multi_thread(argv):
     thread_num = argv[2]
     if getLen(argv[3]) < thread_num:
         thread_num = argv[3]
+
+    func_argvs = [[argv[0], arg, argv[5], argv[6], argv[3][0], argv[3][-1]] for arg in argv[3]]
+
+    result = []
+    if thread_num == 1:
+        for func_argv in func_argvs:
+            result.append(_func(func_argv))
+        return result
+
+    # else 
     thread_pool = futures.ThreadPoolExecutor(max_workers=thread_num)
 
-    result = thread_pool.map(argv[0], argv[3], timeout=argv[4])
+    result = thread_pool.map(_func, func_argvs, timeout=argv[4])
     
     return [ r for r in result]
 

@@ -8,15 +8,14 @@ from concurrent import futures
 from multicpu import multi_cpu
 
 def process_job(job):
-    #time.sleep(1)
-    count = 10000000
+    time.sleep(1)
+    count = 100
     while count>0:
         count -= 1
-    print "ok"
     return job
 
 
-jobs = [i for i in range(10)]
+jobs = [i for i in range(30)]
 
 def test_multi_cpu_thread(cpu_num, thread_num):
     print "multi_cpu_thread: cpu_num=%d, thread_num=%d"%(cpu_num, thread_num)
@@ -48,7 +47,7 @@ def test_multi_cpu_thread_timeout(cpu_num, thread_num, timeout):
     print result
 
 
-def aa():
+def else_test():
     start = time.time()
     test_no_thread()
     end = time.time()
@@ -69,9 +68,3 @@ if __name__ == "__main__":
     test_multi_cpu_thread(3, 1)
     end = time.time()
     print "Time: %f seconds\n" % (end - start)
-    
-    import concurrent
-    try:
-        test_multi_cpu_thread_timeout(3, 1, 1)
-    except concurrent.futures.TimeoutError:
-        print("this took too long")

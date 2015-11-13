@@ -11,6 +11,6 @@ setup(
     
     description="Use multicpu, you can let you program run in multi-cpu and you can also set the number of threads in each cpu.",
     license="MIT License (SEE LICENSE)",
-    url = "https://github.com/cyh_24/multicpu"
+    url = "https://github.com/cyh24/multicpu"
 
 )
